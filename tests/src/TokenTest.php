@@ -22,6 +22,10 @@ class TokenTest extends TestCase {
     $this->assertTrue($token->is('type'));
     $this->assertFalse($token->is('type', 'bar'));
     $this->assertFalse($token->is('safe'));
+    $this->assertFalse($token->match('type', '/^bar$/'));
+    $this->assertTrue($token->match('type', '/^token$/'));
+    $this->assertFalse($token->match('safe', '/^bar$/'));
+    $this->assertFalse($token->match('safe', '/^token$/'));
   }
 
 }

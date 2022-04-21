@@ -23,6 +23,10 @@ class TokenStreamTest extends TestCase {
     $this->assertFalse($stream->isOneOf(['type', 'safe']));
     $this->assertEquals([], iterator_to_array($stream));
     $this->assertEquals([], $stream->getTokens());
+    $this->assertFalse($stream->match('type', '/^test$/'));
+    $this->assertFalse($stream->match('type', '/^safe$/'));
+    $this->assertFalse($stream->match('safe', '/^test$/'));
+    $this->assertFalse($stream->match('safe', '/^safe$/'));
 
     $token = new Token('type', 'safe', 1, 1);
     $stream->addToken($token);
@@ -41,6 +45,10 @@ class TokenStreamTest extends TestCase {
     $this->assertEquals($token, $stream->peek());
     $this->assertTrue($stream->is('type'));
     $this->assertTrue($stream->is('type', 'safe'));
+    $this->assertFalse($stream->match('type', '/^test$/'));
+    $this->assertTrue($stream->match('type', '/^safe$/'));
+    $this->assertFalse($stream->match('safe', '/^test$/'));
+    $this->assertFalse($stream->match('safe', '/^safe$/'));
     $this->assertFalse($stream->isOneOf(['safe']));
     $this->assertEquals([$token, $another], iterator_to_array($stream));
     $this->assertEquals([$token, $another], $stream->getTokens());

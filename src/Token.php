@@ -114,4 +114,22 @@ class Token {
     return FALSE;
   }
 
+  /**
+   * Match the token based on type and regex.
+   *
+   * @param string $type
+   *   The type.
+   * @param string $regex
+   *   The regex.
+   *
+   * @return bool
+   *   The result.
+   */
+  public function match(string $type, string $regex): bool {
+    if ($this->type !== $type) {
+      return FALSE;
+    }
+    return preg_match($regex, $this->token);
+  }
+
 }

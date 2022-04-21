@@ -93,6 +93,24 @@ class TokenStream implements \Iterator, \Countable {
   }
 
   /**
+   * Check the next in stream matches the type and regex.
+   *
+   * @param string $type
+   *   The type.
+   * @param string $regex
+   *   The regex.
+   *
+   * @return bool
+   *   The result.
+   */
+  public function match(string $type, string $regex): bool {
+    if (isset($this->tokens[0])) {
+      return $this->tokens[0]->match($type, $regex);
+    }
+    return FALSE;
+  }
+
+  /**
    * Check the next in stream is type.
    *
    * @param string $type
