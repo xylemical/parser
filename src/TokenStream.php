@@ -215,6 +215,19 @@ class TokenStream implements \Iterator, \Countable {
   }
 
   /**
+   * Push a token back to the beginning of the stream.
+   *
+   * @param \Xylemical\Parser\Token $token
+   *   The token.
+   *
+   * @return $this
+   */
+  public function push(Token $token): static {
+    array_unshift($this->tokens, $token);
+    return $this;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function current(): ?Token {

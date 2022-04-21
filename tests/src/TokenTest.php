@@ -18,6 +18,10 @@ class TokenTest extends TestCase {
     $this->assertEquals('token', $token->getToken());
     $this->assertEquals(2, $token->getLine());
     $this->assertEquals(4, $token->getColumn());
+    $this->assertTrue($token->is('type', 'token'));
+    $this->assertTrue($token->is('type'));
+    $this->assertFalse($token->is('type', 'bar'));
+    $this->assertFalse($token->is('safe'));
   }
 
 }

@@ -47,6 +47,10 @@ class TokenStreamTest extends TestCase {
 
     $result = $stream->consume();
     $this->assertEquals($token, $result);
+
+    $stream->push($token);
+    $stream->push($another);
+    $this->assertEquals([$another, $token, $another], $stream->getTokens());
   }
 
   /**

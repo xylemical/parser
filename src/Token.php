@@ -94,4 +94,24 @@ class Token {
     return $this->column;
   }
 
+  /**
+   * Check the token matches a type and optional value.
+   *
+   * @param string $type
+   *   The type.
+   * @param string $value
+   *   The value.
+   *
+   * @return bool
+   *   The result.
+   */
+  public function is(string $type, string $value = ''): bool {
+    if ($this->type === $type) {
+      if (!$value || $this->token === $value) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
 }
