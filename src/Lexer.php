@@ -15,6 +15,8 @@ class Lexer {
    *
    * @return mixed
    *   The content.
+   *
+   * @throws \Xylemical\Parser\Exception\SyntaxException
    */
   public function generate(TokenStream $stream): mixed {
     return NULL;
