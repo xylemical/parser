@@ -239,7 +239,6 @@ class Tokenizer {
     }
 
     $patterns = array_map(function ($token, $pattern) {
-      $token = preg_quote($token);
       $pattern = str_replace('`', '\\`', $pattern);
       return "(*MARK:{$token}){$pattern}";
     }, array_keys($patterns), $patterns);
