@@ -93,4 +93,31 @@ class TokenStreamTest extends TestCase {
     $stream->expectOneOf(['foo', 'bar']);
   }
 
+  /**
+   * Tests an optional with tokens.
+   */
+  public function testOptional(): void {
+    $token = new Token('test', 'value', 1, 1);
+    $stream = new TokenStream([$token]);
+    $this->assertEquals($token, $stream->optional('test'));
+    $this->assertEquals([], $stream->getTokens());
+
+    $stream->addToken($token);
+    $this->assertNull($stream->optional('foo'));
+    $this->assertEquals(1, count($stream));
+  }
+
+  /**
+   * Tests an optionalOneOf with tokens.
+   */
+  public function testOptionalOneOf(): void {
+    $token = new Token('test', 'value', 1, 1);
+    $stream = new TokenStream([$token]);
+    $this->assertEquals($token, $stream->optionalOneOf(['safe', 'test']));
+
+    $stream->addToken($token);
+    $this->assertNull($stream->optionalOneOf(['foo', 'bar']));
+    $this->assertEquals(1, count($stream));
+  }
+
 }

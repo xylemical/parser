@@ -181,6 +181,40 @@ class TokenStream implements \Iterator, \Countable {
   }
 
   /**
+   * Optionally get the next token to match the type and value.
+   *
+   * @param string $type
+   *   The token type.
+   * @param string|string[]|null $value
+   *   The value to match. See is().
+   *
+   * @return \Xylemical\Parser\Token|null
+   *   The optional token.
+   */
+  public function optional(string $type, mixed $value = NULL): ?Token {
+    if ($this->is($type, $value)) {
+      return $this->consume();
+    }
+    return NULL;
+  }
+
+  /**
+   * Expect the next token to match one of the types.
+   *
+   * @param string[] $types
+   *   The types.
+   *
+   * @return \Xylemical\Parser\Token|null
+   *   The expected token.
+   */
+  public function optionalOneOf(array $types): ?Token {
+    if ($this->isOneOf($types)) {
+      return $this->consume();
+    }
+    return NULL;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function current(): ?Token {
