@@ -93,19 +93,17 @@ class TokenStream implements \Iterator, \Countable {
   }
 
   /**
-   * Check the next in stream matches the type and regex.
+   * Check the next in stream matches tne regex.
    *
-   * @param string $type
-   *   The type.
    * @param string $regex
    *   The regex.
    *
    * @return bool
    *   The result.
    */
-  public function match(string $type, string $regex): bool {
+  public function match(string $regex): bool {
     if (isset($this->tokens[0])) {
-      return $this->tokens[0]->match($type, $regex);
+      return $this->tokens[0]->match($regex);
     }
     return FALSE;
   }
@@ -199,6 +197,28 @@ class TokenStream implements \Iterator, \Countable {
   }
 
   /**
+   * Expect the next token to match the regex.
+   *
+   * @param string $regex
+   *   The types.
+   *
+   * @return \Xylemical\Parser\Token
+   *   The expected token.
+   *
+   * @throws \Xylemical\Parser\Exception\SyntaxException
+   */
+  public function expectMatch(string $regex): Token {
+    if (!$this->match($regex)) {
+      if ($token = $this->consume()) {
+        throw new UnexpectedTokenException('Unexpected token.', $token);
+      }
+      throw new UnexpectedEndException();
+    }
+
+    return $this->consume();
+  }
+
+  /**
    * Optionally get the next token to match the type and value.
    *
    * @param string $type
@@ -227,6 +247,22 @@ class TokenStream implements \Iterator, \Countable {
    */
   public function optionalOneOf(array $types): ?Token {
     if ($this->isOneOf($types)) {
+      return $this->consume();
+    }
+    return NULL;
+  }
+
+  /**
+   * Optionally get the next token to match the type and value.
+   *
+   * @param string $regex
+   *   The regex.
+   *
+   * @return \Xylemical\Parser\Token|null
+   *   The optional token.
+   */
+  public function optionalMatch(string $regex): ?Token {
+    if ($this->match($regex)) {
       return $this->consume();
     }
     return NULL;
