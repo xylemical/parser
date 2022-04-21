@@ -290,7 +290,7 @@ class Tokenizer {
 
     $pattern = $this->compile($patterns);
 
-    while ($input) {
+    while (strlen($input)) {
       if (!preg_match($pattern, $input, $match)) {
         throw new SyntaxException('Unable to match to a token.');
       }
