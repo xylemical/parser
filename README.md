@@ -1,6 +1,6 @@
 # Parser
 
-Provides regex parsing with refinement of tokens.
+Provides parsing of strings into an abstract syntax tree.
 
 ## Install
 

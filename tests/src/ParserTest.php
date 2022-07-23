@@ -5,7 +5,11 @@ namespace Xylemical\Parser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Xylemical\Parser\Exception\SyntaxException;
+use Xylemical\Ast\NodeInterface;
+use Xylemical\Ast\TestNode;
+use Xylemical\Token\Exception\TokenException;
+use Xylemical\Token\Token;
+use Xylemical\Token\Tokenizer;
 
 /**
  * Tests \Xylemical\Parser\Parser.
@@ -45,10 +49,13 @@ class ParserTest extends TestCase {
    * @dataProvider providerTestParser
    */
   public function testParser(string $name, array $patterns, string $input, array $expected, bool $success): void {
-    $lexer = $this->prophesize(Lexer::class);
+    $node = $this->prophesize(NodeInterface::class);
+
+    $lexer = $this->prophesize(LexerInterface::class);
     // @phpstan-ignore-next-line
-    $lexer->generate(Argument::any())->will(function ($args) {
-      return $args[0]->consume();
+    $lexer->generate(Argument::any())->will(function ($args) use ($node) {
+      $node->token = $args[0]->consume();
+      return $node->reveal();
     });
 
     $tokenizer = (new Tokenizer())->setPatterns($patterns);
@@ -56,9 +63,10 @@ class ParserTest extends TestCase {
     $exception = FALSE;
     try {
       $parser = new Parser($tokenizer, $lexer->reveal());
+      /** @var \Xylemical\Ast\TestNode $item */
       $item = $parser->parse($input);
     }
-    catch (SyntaxException $e) {
+    catch (TokenException $e) {
       $exception = TRUE;
     }
 
@@ -68,7 +76,7 @@ class ParserTest extends TestCase {
     }
 
     $token = new Token($expected[0], $expected[1], 1, 1);
-    $this->assertEquals($token, $item);
+    $this->assertEquals($token, $item->token);
   }
 
   /**
@@ -76,8 +84,8 @@ class ParserTest extends TestCase {
    */
   public function testSanity(): void {
     $tokenizer = new Tokenizer();
-    $lexer = new Lexer();
-    $parser = new Parser(new Tokenizer(), new Lexer());
+    $lexer = $this->getMockBuilder(LexerInterface::class)->getMock();
+    $parser = new Parser(new Tokenizer(), new TestLexer());
     $this->assertFalse($tokenizer === $parser->getTokenizer());
     $this->assertFalse($lexer === $parser->getLexer());
 

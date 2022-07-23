@@ -1,32 +1,39 @@
 {
-  "name": "xylemical/parser",
-  "type": "library",
-  "license": "MIT",
-  "description": "Provides a regex based parser.",
-  "keywords": [
-    "php",
-    "regex",
-    "parser"
-  ],
-  "homepage": "https://github.com/xylemical/parser",
-  "autoload": {
-    "psr-4": {
-      "Xylemical\\Parser\\": "src/"
+    "name": "xylemical/parser",
+    "type": "library",
+    "license": "MIT",
+    "description": "Provides a regex based parser.",
+    "keywords": [
+        "php",
+        "regex",
+        "parser"
+    ],
+    "homepage": "https://github.com/xylemical/parser",
+    "autoload": {
+        "psr-4": {
+            "Xylemical\\Parser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Xylemical\\Parser\\": "tests/src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "xylemical/ast": "dev-master",
+        "xylemical/token": "^1.0"
+    },
+    "require-dev": {
+        "xylemical/composer-dev-bundle": "^0.1.0"
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit && vendor/bin/phpstan analyse && vendor/bin/phpcs",
+        "test-coverage": "php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html report"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Xylemical\\Parser\\": "tests/src/"
-    }
-  },
-  "require": {
-    "php": ">=8.0"
-  },
-  "require-dev": {
-    "xylemical/composer-dev-bundle": "^0.1.0"
-  },
-  "scripts": {
-    "tests": "vendor/bin/phpunit && vendor/bin/phpstan analyse && vendor/bin/phpcs",
-    "test-coverage": "php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html report"
-  }
 }

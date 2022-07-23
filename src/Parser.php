@@ -2,36 +2,38 @@
 
 namespace Xylemical\Parser;
 
+use Xylemical\Ast\NodeInterface;
 use Xylemical\Parser\Exception\IncompleteGrammarException;
+use Xylemical\Token\TokenizerInterface;
 
 /**
- * General parser..
+ * Provides a generalized parser.
  */
 class Parser {
 
   /**
    * The tokenizer.
    *
-   * @var \Xylemical\Parser\Tokenizer
+   * @var \Xylemical\Token\TokenizerInterface
    */
-  protected Tokenizer $tokenizer;
+  protected TokenizerInterface $tokenizer;
 
   /**
    * The lexer.
    *
-   * @var \Xylemical\Parser\Lexer
+   * @var \Xylemical\Parser\LexerInterface
    */
-  protected Lexer $lexer;
+  protected LexerInterface $lexer;
 
   /**
    * Parser constructor.
    *
-   * @param \Xylemical\Parser\Tokenizer $tokenizer
+   * @param \Xylemical\Token\TokenizerInterface $tokenizer
    *   The tokenizer.
-   * @param \Xylemical\Parser\Lexer $lexer
+   * @param \Xylemical\Parser\LexerInterface $lexer
    *   The lexer.
    */
-  public function __construct(Tokenizer $tokenizer, Lexer $lexer) {
+  public function __construct(TokenizerInterface $tokenizer, LexerInterface $lexer) {
     $this->tokenizer = $tokenizer;
     $this->lexer = $lexer;
   }
@@ -39,22 +41,22 @@ class Parser {
   /**
    * Get the tokenizer.
    *
-   * @return \Xylemical\Parser\Tokenizer
+   * @return \Xylemical\Token\TokenizerInterface
    *   The tokenizer.
    */
-  public function getTokenizer(): Tokenizer {
+  public function getTokenizer(): TokenizerInterface {
     return $this->tokenizer;
   }
 
   /**
    * Set the tokenizer.
    *
-   * @param \Xylemical\Parser\Tokenizer $tokenizer
+   * @param \Xylemical\Token\TokenizerInterface $tokenizer
    *   The tokenizer.
    *
    * @return $this
    */
-  public function setTokenizer(Tokenizer $tokenizer): static {
+  public function setTokenizer(TokenizerInterface $tokenizer): static {
     $this->tokenizer = $tokenizer;
     return $this;
   }
@@ -62,38 +64,38 @@ class Parser {
   /**
    * Get the lexer.
    *
-   * @return \Xylemical\Parser\Lexer
+   * @return \Xylemical\Parser\LexerInterface
    *   The lexer.
    */
-  public function getLexer(): Lexer {
+  public function getLexer(): LexerInterface {
     return $this->lexer;
   }
 
   /**
    * Set the lexer.
    *
-   * @param \Xylemical\Parser\Lexer $lexer
+   * @param \Xylemical\Parser\LexerInterface $lexer
    *   The lexer.
    *
    * @return $this
    */
-  public function setLexer(Lexer $lexer): static {
+  public function setLexer(LexerInterface $lexer): static {
     $this->lexer = $lexer;
     return $this;
   }
 
   /**
-   * Parse input and generate content.
+   * Parse input and generate an abstract syntax tree.
    *
    * @param string $input
    *   The input.
    *
-   * @return mixed
-   *   The generated content.
+   * @return \Xylemical\Ast\NodeInterface
+   *   The generated abstract syntax tree.
    *
-   * @throws \Xylemical\Parser\Exception\SyntaxException
+   * @throws \Xylemical\Token\Exception\TokenException
    */
-  public function parse(string $input): mixed {
+  public function parse(string $input): NodeInterface {
     $stream = $this->tokenizer->tokenize($input);
     $result = $this->lexer->generate($stream);
     if (count($stream)) {
