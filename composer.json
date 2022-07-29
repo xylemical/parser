@@ -20,9 +20,7 @@
         }
     },
     "require": {
-        "php": ">=8.0",
-        "xylemical/ast": "dev-master",
-        "xylemical/token": "^1.0"
+        "php": ">=8.0"
     },
     "require-dev": {
         "xylemical/composer-dev-bundle": "^0.1.0"
