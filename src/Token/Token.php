@@ -2,10 +2,6 @@
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\IdentifiableTokenInterface;
-use Xylemical\Parser\Token\LocatableTokenInterface;
-use Xylemical\Parser\Token\TokenInterface;
-
 /**
  * Provides a generic token.
  */

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser;
 
-use Xylemical\Ast\NodeInterface;
-use Xylemical\Token\TokenStreamInterface;
+use Xylemical\Parser\Token\TokenStreamInterface;
+use Xylemical\Parser\Tree\NodeInterface;
 
 /**
  * Provides the conversion of tokens into an abstract syntax tree.
@@ -15,13 +15,13 @@ interface LexerInterface {
   /**
    * Generates content from the token stream.
    *
-   * @param \Xylemical\Token\TokenStreamInterface $stream
+   * @param \Xylemical\Parser\Token\TokenStreamInterface $stream
    *   The stream.
    *
-   * @return \Xylemical\Ast\NodeInterface
+   * @return \Xylemical\Parser\Tree\NodeInterface
    *   The abstract syntax tree.
    *
-   * @throws \Xylemical\Token\Exception\TokenException
+   * @throws \Xylemical\Parser\Exception\SyntaxException
    */
   public function generate(TokenStreamInterface $stream): NodeInterface;
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Xylemical\Parser\Token\Exception;
+namespace Xylemical\Parser\Exception;
 
 use Xylemical\Parser\Token\TokenInterface;
 
 /**
  * Triggers with a token exception.
  */
-class TokenException extends \Exception {
+class SyntaxException extends \Exception {
 
   /**
    * The token discovered.

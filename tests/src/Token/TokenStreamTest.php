@@ -3,10 +3,8 @@
 namespace Xylemical\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
-use Xylemical\Parser\Token\Exception\UnexpectedEndException;
-use Xylemical\Parser\Token\Exception\UnexpectedTokenException;
-use Xylemical\Parser\Token\Token;
-use Xylemical\Parser\Token\TokenStream;
+use Xylemical\Parser\Exception\UnexpectedEndException;
+use Xylemical\Parser\Exception\UnexpectedSyntaxException;
 
 /**
  * Tests \Xylemical\Parser\Token\TokenStream.
@@ -99,7 +97,7 @@ class TokenStreamTest extends TestCase {
     $this->assertEquals($token, $stream->expect('test'));
 
     $stream->addToken($token);
-    $this->expectException(UnexpectedTokenException::class);
+    $this->expectException(UnexpectedSyntaxException::class);
     $stream->expect('foo');
   }
 
@@ -121,7 +119,7 @@ class TokenStreamTest extends TestCase {
     $this->assertEquals($token, $stream->expectOneOf(['safe', 'test']));
 
     $stream->addToken($token);
-    $this->expectException(UnexpectedTokenException::class);
+    $this->expectException(UnexpectedSyntaxException::class);
     $stream->expectOneOf(['foo', 'bar']);
   }
 
@@ -143,7 +141,7 @@ class TokenStreamTest extends TestCase {
     $this->assertEquals($token, $stream->expectMatch('/^value$/'));
 
     $stream->addToken($token);
-    $this->expectException(UnexpectedTokenException::class);
+    $this->expectException(UnexpectedSyntaxException::class);
     $stream->expectMatch('/^type$/');
   }
 

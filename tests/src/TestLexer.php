@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser;
 
-use Xylemical\Ast\NodeInterface;
-use Xylemical\Token\TokenStreamInterface;
+use Xylemical\Parser\Tree\NodeInterface;
+use Xylemical\Parser\Token\TokenStreamInterface;
 
 /**
  * Provides a test lexer.

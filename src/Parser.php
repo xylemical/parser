@@ -2,9 +2,9 @@
 
 namespace Xylemical\Parser;
 
-use Xylemical\Ast\NodeInterface;
 use Xylemical\Parser\Exception\IncompleteGrammarException;
-use Xylemical\Token\TokenizerInterface;
+use Xylemical\Parser\Token\TokenizerInterface;
+use Xylemical\Parser\Tree\NodeInterface;
 
 /**
  * Provides a generalized parser.
@@ -14,7 +14,7 @@ class Parser {
   /**
    * The tokenizer.
    *
-   * @var \Xylemical\Token\TokenizerInterface
+   * @var \Xylemical\Parser\Token\TokenizerInterface
    */
   protected TokenizerInterface $tokenizer;
 
@@ -28,7 +28,7 @@ class Parser {
   /**
    * Parser constructor.
    *
-   * @param \Xylemical\Token\TokenizerInterface $tokenizer
+   * @param \Xylemical\Parser\Token\TokenizerInterface $tokenizer
    *   The tokenizer.
    * @param \Xylemical\Parser\LexerInterface $lexer
    *   The lexer.
@@ -41,7 +41,7 @@ class Parser {
   /**
    * Get the tokenizer.
    *
-   * @return \Xylemical\Token\TokenizerInterface
+   * @return \Xylemical\Parser\Token\TokenizerInterface
    *   The tokenizer.
    */
   public function getTokenizer(): TokenizerInterface {
@@ -51,7 +51,7 @@ class Parser {
   /**
    * Set the tokenizer.
    *
-   * @param \Xylemical\Token\TokenizerInterface $tokenizer
+   * @param \Xylemical\Parser\Token\TokenizerInterface $tokenizer
    *   The tokenizer.
    *
    * @return $this
@@ -90,10 +90,10 @@ class Parser {
    * @param string $input
    *   The input.
    *
-   * @return \Xylemical\Ast\NodeInterface
+   * @return \Xylemical\Parser\Tree\NodeInterface
    *   The generated abstract syntax tree.
    *
-   * @throws \Xylemical\Token\Exception\TokenException
+   * @throws \Xylemical\Parser\Exception\SyntaxException
    */
   public function parse(string $input): NodeInterface {
     $stream = $this->tokenizer->tokenize($input);

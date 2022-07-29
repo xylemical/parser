@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\TokenInterface;
-
 /**
  * Provides location information for the token.
  */

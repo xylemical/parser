@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Tree;
 
-use Xylemical\Parser\Tree\NodeInterface;
-
 /**
  * Provides an operation regarding traversal.
  */
@@ -127,7 +125,7 @@ class VisitorOperation {
   /**
    * Creates a traversal stop operation.
    *
-   * @return \Xylemical\Parser\VisitorOperation
+   * @return \Xylemical\Parser\Tree\VisitorOperation
    *   The operation.
    */
   public static function stop(): VisitorOperation {
@@ -137,7 +135,7 @@ class VisitorOperation {
   /**
    * Creates a skip children operation.
    *
-   * @return \Xylemical\Parser\VisitorOperation
+   * @return \Xylemical\Parser\Tree\VisitorOperation
    *   The operation.
    */
   public static function skipChildren(): VisitorOperation {
@@ -147,7 +145,7 @@ class VisitorOperation {
   /**
    * Creates a skip self operation.
    *
-   * @return \Xylemical\Parser\VisitorOperation
+   * @return \Xylemical\Parser\Tree\VisitorOperation
    *   The operation.
    */
   public static function skipSelf(): VisitorOperation {
@@ -160,7 +158,7 @@ class VisitorOperation {
    * @param \Xylemical\Parser\Tree\NodeInterface $replacement
    *   The replacement node.
    *
-   * @return \Xylemical\Parser\VisitorOperation
+   * @return \Xylemical\Parser\Tree\VisitorOperation
    *   The operation.
    */
   public static function replaceNode(NodeInterface $replacement): VisitorOperation {
@@ -170,7 +168,7 @@ class VisitorOperation {
   /**
    * Creates a remove node operation.
    *
-   * @return \Xylemical\Parser\VisitorOperation
+   * @return \Xylemical\Parser\Tree\VisitorOperation
    *   The operation.
    */
   public static function removeNode(): VisitorOperation {

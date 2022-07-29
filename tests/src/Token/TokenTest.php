@@ -3,7 +3,6 @@
 namespace Xylemical\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
-use Xylemical\Parser\Token\Token;
 
 /**
  * Tests \Xylemical\Parser\Token\Token.

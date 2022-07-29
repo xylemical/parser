@@ -5,11 +5,10 @@ namespace Xylemical\Parser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Xylemical\Ast\NodeInterface;
-use Xylemical\Ast\TestNode;
-use Xylemical\Token\Exception\TokenException;
-use Xylemical\Token\Token;
-use Xylemical\Token\Tokenizer;
+use Xylemical\Parser\Exception\SyntaxException;
+use Xylemical\Parser\Token\Token;
+use Xylemical\Parser\Token\Tokenizer;
+use Xylemical\Parser\Tree\NodeInterface;
 
 /**
  * Tests \Xylemical\Parser\Parser.
@@ -50,12 +49,13 @@ class ParserTest extends TestCase {
    */
   public function testParser(string $name, array $patterns, string $input, array $expected, bool $success): void {
     $node = $this->prophesize(NodeInterface::class);
+    $node = $node->reveal();
 
+    $token = NULL;
     $lexer = $this->prophesize(LexerInterface::class);
-    // @phpstan-ignore-next-line
-    $lexer->generate(Argument::any())->will(function ($args) use ($node) {
-      $node->token = $args[0]->consume();
-      return $node->reveal();
+    $lexer->generate(Argument::any())->will(function ($args) use ($node, &$token) {
+      $token = $args[0]->consume();
+      return $node;
     });
 
     $tokenizer = (new Tokenizer())->setPatterns($patterns);
@@ -63,10 +63,10 @@ class ParserTest extends TestCase {
     $exception = FALSE;
     try {
       $parser = new Parser($tokenizer, $lexer->reveal());
-      /** @var \Xylemical\Ast\TestNode $item */
+      /** @var \Xylemical\Parser\Tree\TestNode $item */
       $item = $parser->parse($input);
     }
-    catch (TokenException $e) {
+    catch (SyntaxException $e) {
       $exception = TRUE;
     }
 
@@ -75,8 +75,8 @@ class ParserTest extends TestCase {
       return;
     }
 
-    $token = new Token($expected[0], $expected[1], 1, 1);
-    $this->assertEquals($token, $item->token);
+    $expected = new Token($expected[0], $expected[1], 1, 1);
+    $this->assertEquals($expected, $token);
   }
 
   /**

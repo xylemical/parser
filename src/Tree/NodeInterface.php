@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Tree;
 
-use Xylemical\Parser\Tree\ChildrenInterface;
-
 /**
  * Provides a base node of an abstract syntax tree.
  */

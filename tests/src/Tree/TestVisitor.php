@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Tree;
 
-use Xylemical\Parser\Tree\NodeInterface;
-use Xylemical\Parser\Tree\VisitorInterface;
-use Xylemical\Parser\Tree\VisitorOperation;
-
 /**
  * Provides a test visitor.
  */

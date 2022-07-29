@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\TokenStreamInterface;
-
 /**
  * Provides tokenization behaviours.
  */
@@ -20,7 +18,7 @@ interface TokenizerInterface {
    * @return \Xylemical\Parser\Token\TokenStreamInterface
    *   The token stream.
    *
-   * @throws \Xylemical\Parser\Token\Exception\TokenException
+   * @throws \Xylemical\Parser\Exception\SyntaxException
    */
   public function tokenize(string $input): TokenStreamInterface;
 

@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Tree;
 
-use Xylemical\Parser\Tree\ChildrenInterface;
-use Xylemical\Parser\Tree\Exception\TraversalException;
-use Xylemical\Parser\Tree\NodeInterface;
-use Xylemical\Parser\Tree\VisitorInterface;
-use Xylemical\Parser\Tree\VisitorOperation;
+use Xylemical\Parser\Exception\TraversalException;
 use function gettype;
 use function is_null;
 
@@ -161,15 +157,18 @@ class NodeTraverser {
     if ($result?->isStop() || $result?->isRemoval()) {
       return $result;
     }
+    $target = $result?->getReplacement() ?: $node;
 
-    if (!$result?->skipsChildren() && ($children = $node->getChildren())) {
+    if (!$result?->skipsChildren() && ($children = $target->getChildren())) {
       $result = $this->traverseChildren($children);
       if ($result?->isStop()) {
         return $result;
       }
+      $target = $result?->getReplacement() ?: $node;
     }
 
-    return $this->leave($node, $sequence, $completed);
+    $result = $this->leave($target, $sequence, $completed);
+    return $result ?: ($target !== $node ? VisitorOperation::replaceNode($target) : NULL);
   }
 
   /**

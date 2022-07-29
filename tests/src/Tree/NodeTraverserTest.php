@@ -6,10 +6,6 @@ namespace Xylemical\Parser\Tree;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Xylemical\Parser\Tree\Children;
-use Xylemical\Parser\Tree\NodeInterface;
-use Xylemical\Parser\Tree\NodeTraverser;
-use Xylemical\Parser\Tree\TestVisitor;
 
 /**
  * Tests \Xylemical\Parser\NodeTraverser.
@@ -39,6 +35,7 @@ class NodeTraverserTest extends TestCase {
       }
       $node->getChildren()->will(function ($args) use (&$handle, $children) {
         if (!$handle) {
+          // @phpstan-ignore-next-line
           $handle = new Children($this->reveal(), array_keys($children));
         }
         return $handle;
@@ -131,7 +128,7 @@ class NodeTraverserTest extends TestCase {
     $node = $this->getMockNode();
     $replacement = $this->getMockNode();
 
-    $a->enterCondition[] = [$node, VisitorOperation::replaceNode($replacement)];
+    $a->enterCondition = [$node, VisitorOperation::replaceNode($replacement)];
 
     $result = $traverser->traverse($node);
     $this->assertSame($replacement, $result);
@@ -159,13 +156,13 @@ class NodeTraverserTest extends TestCase {
 
     $replacement = $this->getMockNode();
 
-    $a->enterCondition[] = [$cb, VisitorOperation::replaceNode($replacement)];
+    $a->enterCondition = [$cb, VisitorOperation::replaceNode($replacement)];
 
     $node = $this->getMockNode(['a' => $ca, 'b' => $cb]);
 
     $result = $traverser->traverse($node);
     $this->assertSame($node, $result);
-    $this->assertSame($replacement, $node->getChildren()['cb']);
+    $this->assertSame($replacement, $node->getChildren()['b']);
 
     $this->assertEquals(3, count($a->enters));
     $this->assertSame($node, $a->enters[0][0]);
@@ -173,8 +170,8 @@ class NodeTraverserTest extends TestCase {
     $this->assertSame($cb, $a->enters[2][0]);
     $this->assertEquals(3, count($a->leaves));
     $this->assertSame($ca, $a->leaves[0][0]);
-    $this->assertSame($replacement, $a->leaves[0][0]);
-    $this->assertSame($node, $a->leaves[0][0]);
+    $this->assertSame($replacement, $a->leaves[1][0]);
+    $this->assertSame($node, $a->leaves[2][0]);
 
     $this->assertEquals(3, count($b->enters));
     $this->assertSame($node, $b->enters[0][0]);
@@ -182,8 +179,8 @@ class NodeTraverserTest extends TestCase {
     $this->assertSame($replacement, $b->enters[2][0]);
     $this->assertEquals(3, count($b->leaves));
     $this->assertSame($ca, $b->leaves[0][0]);
-    $this->assertSame($replacement, $b->leaves[0][0]);
-    $this->assertSame($node, $b->leaves[0][0]);
+    $this->assertSame($replacement, $b->leaves[1][0]);
+    $this->assertSame($node, $b->leaves[2][0]);
   }
 
 }

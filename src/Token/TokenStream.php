@@ -2,10 +2,8 @@
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\Exception\UnexpectedEndException;
-use Xylemical\Parser\Token\Exception\UnexpectedTokenException;
-use Xylemical\Parser\Token\TokenInterface;
-use Xylemical\Parser\Token\TokenStreamInterface;
+use Xylemical\Parser\Exception\UnexpectedEndException;
+use Xylemical\Parser\Exception\UnexpectedSyntaxException;
 
 /**
  * The token stream.
@@ -129,7 +127,7 @@ class TokenStream implements TokenStreamInterface, \Iterator {
   public function expect(string $type, mixed $value = NULL): TokenInterface {
     if (!$this->is($type, $value)) {
       if ($token = $this->consume()) {
-        throw new UnexpectedTokenException('Unexpected token.', $token);
+        throw new UnexpectedSyntaxException('Unexpected token.', $token);
       }
       throw new UnexpectedEndException();
     }
@@ -143,7 +141,7 @@ class TokenStream implements TokenStreamInterface, \Iterator {
   public function expectOneOf(array $types): TokenInterface {
     if (!$this->isOneOf($types)) {
       if ($token = $this->consume()) {
-        throw new UnexpectedTokenException('Unexpected token.', $token);
+        throw new UnexpectedSyntaxException('Unexpected token.', $token);
       }
       throw new UnexpectedEndException();
     }
@@ -156,7 +154,7 @@ class TokenStream implements TokenStreamInterface, \Iterator {
   public function expectMatch(string $regex): TokenInterface {
     if (!$this->match($regex)) {
       if ($token = $this->consume()) {
-        throw new UnexpectedTokenException('Unexpected token.', $token);
+        throw new UnexpectedSyntaxException('Unexpected token.', $token);
       }
       throw new UnexpectedEndException();
     }

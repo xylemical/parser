@@ -30,7 +30,7 @@ $tokenizer = (new Tokenizer())->setPatterns([
 $result = $tokenizer->tokenize('This is a test scenario');
 ```
 
-### Refinements
+#### Refinements
 
 Refinements allow the tokenizer to be better at classifying tokens by refining them.
 

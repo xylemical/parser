@@ -3,9 +3,7 @@
 namespace Xylemical\Parser\Token;
 
 use PHPUnit\Framework\TestCase;
-use Xylemical\Parser\Token\Exception\TokenException;
-use Xylemical\Parser\Token\Token;
-use Xylemical\Parser\Token\Tokenizer;
+use Xylemical\Parser\Exception\SyntaxException;
 
 /**
  * Tests \Xylemical\Parser\Token\Tokenizer.
@@ -38,7 +36,7 @@ class TokenizerTest extends TestCase {
     try {
       $tokenStream = $tokenizer->tokenize($input);
     }
-    catch (TokenException $e) {
+    catch (SyntaxException $e) {
       $exception = TRUE;
     }
 
@@ -71,7 +69,10 @@ class TokenizerTest extends TestCase {
     $this->assertEquals('\d+', $tokenizer->getPattern('token'));
 
     $tokenizer->setPatterns(['abc' => '\d+']);
-    $this->assertEquals(['token' => '\d+', 'abc' => '\d+'], $tokenizer->getPatterns());
+    $this->assertEquals([
+      'token' => '\d+',
+      'abc' => '\d+',
+    ], $tokenizer->getPatterns());
 
     $tokenizer->resetPattern('token');
     $this->assertEquals(['abc' => '\d+'], $tokenizer->getPatterns());
@@ -107,13 +108,21 @@ class TokenizerTest extends TestCase {
     $tokenizer->resetPattern('word');
     $this->assertEquals(['word' => '\w+'], $tokenizer->getPatterns());
     $tokenizer->setPattern('digit', '\d+');
-    $this->assertEquals(['word' => '\w+', 'digit' => '\d+'], $tokenizer->getPatterns());
+    $this->assertEquals([
+      'word' => '\w+',
+      'digit' => '\d+',
+    ], $tokenizer->getPatterns());
 
     $tokenizer->resetPattern();
     $this->assertEquals(['word' => '\w+'], $tokenizer->getPatterns());
 
     $tokenizer->setRefinement('word', 'word', '\w');
-    $this->assertEquals(['word' => ['digit' => '\w+', 'word' => '\w']], $tokenizer->getRefinements());
+    $this->assertEquals([
+      'word' => [
+        'digit' => '\w+',
+        'word' => '\w',
+      ],
+    ], $tokenizer->getRefinements());
 
     $tokenizer->resetRefinement('word', 'word');
     $this->assertEquals(['word' => ['digit' => '\w+']], $tokenizer->getRefinements());
@@ -136,6 +145,7 @@ class TokenizerTest extends TestCase {
  * A test tokenizer with overridden constants.
  */
 class TestTokenizer extends Tokenizer {
+
   protected const PATTERNS = [
     'word' => '\w+',
   ];

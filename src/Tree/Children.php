@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Tree;
 
-use Xylemical\Parser\Tree\ChildrenInterface;
-use Xylemical\Parser\Tree\NodeInterface;
 use function call_user_func;
 use function method_exists;
 use function property_exists;
@@ -162,7 +160,7 @@ class Children implements ChildrenInterface, \Iterator {
    * @param \Xylemical\Parser\Tree\NodeInterface|\Xylemical\Parser\Tree\ChildrenInterface|null $value
    *   The value.
    */
-  protected function set(string $name, NodeInterface|ChildrenInterface|null $value) {
+  protected function set(string $name, NodeInterface|ChildrenInterface|null $value): void {
     if (method_exists($this->parent, "set{$name}")) {
       call_user_func([$this->parent, "set{$name}"], $value);
     }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\TokenInterface;
-
 /**
  * Provides the definition of a token stream.
  */
@@ -106,8 +104,8 @@ interface TokenStreamInterface extends \ArrayAccess, \Traversable, \Countable, \
    * @return \Xylemical\Parser\Token\TokenInterface
    *   The expected token.
    *
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedTokenException
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedEndException
+   * @throws \Xylemical\Parser\Exception\UnexpectedSyntaxException
+   * @throws \Xylemical\Parser\Exception\UnexpectedEndException
    */
   public function expect(string $type, mixed $value = NULL): TokenInterface;
 
@@ -120,8 +118,8 @@ interface TokenStreamInterface extends \ArrayAccess, \Traversable, \Countable, \
    * @return \Xylemical\Parser\Token\TokenInterface
    *   The expected token.
    *
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedTokenException
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedEndException
+   * @throws \Xylemical\Parser\Exception\UnexpectedSyntaxException
+   * @throws \Xylemical\Parser\Exception\UnexpectedEndException
    */
   public function expectOneOf(array $types): TokenInterface;
 
@@ -134,8 +132,8 @@ interface TokenStreamInterface extends \ArrayAccess, \Traversable, \Countable, \
    * @return \Xylemical\Parser\Token\TokenInterface
    *   The expected token.
    *
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedTokenException
-   * @throws \Xylemical\Parser\Token\Exception\UnexpectedEndException
+   * @throws \Xylemical\Parser\Exception\UnexpectedSyntaxException
+   * @throws \Xylemical\Parser\Exception\UnexpectedEndException
    */
   public function expectMatch(string $regex): TokenInterface;
 
@@ -187,7 +185,7 @@ interface TokenStreamInterface extends \ArrayAccess, \Traversable, \Countable, \
   /**
    * Merges another token stream.
    *
-   * @param \Xylemical\Token\TokenStreamInterface $stream
+   * @param \Xylemical\Parser\Token\TokenStreamInterface $stream
    *   The token stream.
    *
    * @return $this

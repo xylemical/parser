@@ -2,12 +2,7 @@
 
 namespace Xylemical\Parser\Token;
 
-use Xylemical\Parser\Token\Exception\TokenException;
-use Xylemical\Parser\Token\Token;
-use Xylemical\Parser\Token\TokenInterface;
-use Xylemical\Parser\Token\TokenizerInterface;
-use Xylemical\Parser\Token\TokenStream;
-use Xylemical\Parser\Token\TokenStreamInterface;
+use Xylemical\Parser\Exception\SyntaxException;
 
 /**
  * Provides tokenization of strings using regex patterns.
@@ -284,11 +279,11 @@ class Tokenizer implements TokenizerInterface {
    * @param \Xylemical\Parser\Token\TokenStream $stream
    *   The token stream.
    *
-   * @throws \Xylemical\Parser\Token\Exception\TokenException
+   * @throws \Xylemical\Parser\Exception\SyntaxException
    */
   protected function process(array $patterns, string $input, array $refinements, int &$line, int &$column, TokenStream $stream): void {
     if (!$patterns) {
-      throw new TokenException();
+      throw new SyntaxException();
     }
     $eol = $this->getLineEnding($input);
     $eolLength = strlen($eol);
@@ -297,7 +292,7 @@ class Tokenizer implements TokenizerInterface {
 
     while (strlen($input)) {
       if (!preg_match($pattern, $input, $match)) {
-        throw new TokenException('Unable to match to a token.');
+        throw new SyntaxException('Unable to match to a token.');
       }
 
       $token = $match['MARK'];

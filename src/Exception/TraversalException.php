@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Xylemical\Parser\Tree\Exception;
+namespace Xylemical\Parser\Exception;
 
 use Xylemical\Parser\Tree\NodeInterface;
 
